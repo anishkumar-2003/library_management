@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Library Management System</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <h2>Library Management System - User Dashboard</h2>
+        <div class="navbar-links">
+            <span id="username"></span>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <h3>Quick Access</h3>
+            <ul class="sidebar-menu">
+                <li><a href="javascript:void(0);" onclick="navigateTo('dashboard'); return false;" class="menu-link active">Dashboard</a></li>
+            </ul>
+            
+            <h3>Transactions</h3>
+            <ul class="sidebar-menu">
+                <li><a href="javascript:void(0);" onclick="navigateTo('book-available'); return false;" class="menu-link">Book Available</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('book-issue'); return false;" class="menu-link">Issue Book</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('return-book'); return false;" class="menu-link">Return Book</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('pay-fine'); return false;" class="menu-link">Pay Fine</a></li>
+            </ul>
+
+            <h3>Reports</h3>
+            <ul class="sidebar-menu">
+                <li><a href="javascript:void(0);" onclick="navigateTo('my-issues'); return false;" class="menu-link">My Issues</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('overdue-books'); return false;" class="menu-link">Overdue Books</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('pending-fines-user'); return false;" class="menu-link">My Fines</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page show">
+                <h2>Welcome User</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <h3>Search Books</h3>
+                        <p>Find and browse available books</p>
+                        <button class="btn btn-primary btn-sm" onclick="navigateTo('book-available'); return false;">Search Books</button>
+                    </div>
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <h3>Issue Books</h3>
+                        <p>Issue books from the library</p>
+                        <button class="btn btn-secondary btn-sm" onclick="navigateTo('book-issue'); return false;">Issue Book</button>
+                    </div>
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <h3>Return Books</h3>
+                        <p>Return issued books and pay fines</p>
+                        <button class="btn btn-secondary btn-sm" onclick="navigateTo('return-book'); return false;">Return Book</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book Available Page -->
+            <div id="book-available" class="page">
+                <h2>Search Available Books</h2>
+                <div class="form-container">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="searchTitle">Book Title</label>
+                            <input type="text" id="searchTitle" placeholder="Enter book title">
+                        </div>
+                        <div class="form-group">
+                            <label for="searchAuthor">Author</label>
+                            <input type="text" id="searchAuthor" placeholder="Enter author name">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="searchAvailableBooks()">Search</button>
+
+                    <div id="availableBooksTable" class="table-container hidden">
+                        <h3>Available Books</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Category</th>
+                                    <th>Available</th>
+                                    <th>Select</th>
+                                </tr>
+                            </thead>
+                            <tbody id="availableBooksBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="searchMessage"></div>
+                </div>
+            </div>
+
+            <!-- Book Issue Page -->
+            <div id="book-issue" class="page">
+                <h2>Issue Book</h2>
+                <div class="form-container">
+                    <form id="bookIssueForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="membershipNum">Membership Number</label>
+                                <input type="text" id="membershipNum" name="membershipNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="memberNameIssue">Member Name</label>
+                                <input type="text" id="memberNameIssue" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bookIdIssue">Book Title</label>
+                                <input type="text" id="bookIdIssue" placeholder="Select book" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookAuthorIssue">Author</label>
+                                <input type="text" id="bookAuthorIssue" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="issueDateField">Issue Date</label>
+                                <input type="date" id="issueDateField" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="returnDateField">Return Date (15 days from issue)</label>
+                                <input type="date" id="returnDateField" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="remarksIssue">Remarks (Optional)</label>
+                            <textarea id="remarksIssue" name="remarks" rows="3"></textarea>
+                        </div>
+
+                        <div id="issueMessage"></div>
+                        <button type="submit" class="btn btn-success">Issue Book</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetIssueForm()">Reset</button>
+                    </form>
+                </div>
+
+                <!-- Book selection modal -->
+                <div id="bookSelectModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Select Book to Issue</h2>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="bookSearchInput" placeholder="Search by title or author">
+                            <div id="bookSelectList" class="table-container" style="margin-top: 15px;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Author</th>
+                                            <th>Available</th>
+                                            <th>Select</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bookSelectBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="closeBookSelectModal()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Return Book Page -->
+            <div id="return-book" class="page">
+                <h2>Return Book</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="membershipReturn">Membership Number</label>
+                        <input type="text" id="membershipReturn" placeholder="Enter membership number">
+                        <button class="btn btn-secondary btn-sm" onclick="fetchIssueRecords()">Get Issue Records</button>
+                    </div>
+
+                    <div id="issueRecordsTable" class="table-container hidden">
+                        <h3>Active Issues</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Issue Date</th>
+                                    <th>Return Date</th>
+                                    <th>Author</th>
+                                    <th>Select</th>
+                                </tr>
+                            </thead>
+                            <tbody id="issueRecordsBody"></tbody>
+                        </table>
+                    </div>
+
+                    <form id="returnBookForm" class="hidden">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="returnBookTitle">Book Title</label>
+                                <input type="text" id="returnBookTitle" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="returnAuthor">Author</label>
+                                <input type="text" id="returnAuthor" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="returnSerialNo">Serial Number</label>
+                                <input type="text" id="returnSerialNo" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="returnIssueDateReturn">Issue Date</label>
+                                <input type="date" id="returnIssueDateReturn" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="returnDateActual">Return Date</label>
+                            <input type="date" id="returnDateActual" required>
+                        </div>
+
+                        <div id="returnMessage"></div>
+                        <button type="submit" class="btn btn-success">Confirm Return</button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelReturnBook()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Pay Fine Page -->
+            <div id="pay-fine" class="page">
+                <h2>Pay Fine</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="membershipFine">Membership Number</label>
+                        <input type="text" id="membershipFine" placeholder="Enter membership number">
+                        <button class="btn btn-secondary btn-sm" onclick="fetchPendingFines()">Get Pending Fines</button>
+                    </div>
+
+                    <div id="pendingFinesTable" class="table-container hidden">
+                        <h3>Pending Fines</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Return Date</th>
+                                    <th>Fine Amount</th>
+                                    <th>Select</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingFinesBody"></tbody>
+                        </table>
+                    </div>
+
+                    <form id="payFineForm" class="hidden">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fineBookTitle">Book Title</label>
+                                <input type="text" id="fineBookTitle" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="fineAuthorName">Author</label>
+                                <input type="text" id="fineAuthorName" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fineAmount">Fine Amount</label>
+                                <input type="number" id="fineAmount" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="finePaidCheckbox">
+                                    <input type="checkbox" id="finePaidCheckbox" name="finePaid">
+                                    Fine Paid
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fineRemarks">Remarks (Optional)</label>
+                            <textarea id="fineRemarks" name="remarks" rows="3"></textarea>
+                        </div>
+
+                        <div id="fineMessage"></div>
+                        <button type="submit" class="btn btn-success">Confirm Payment</button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelPayFine()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- My Issues Report Page -->
+            <div id="my-issues" class="page">
+                <h2>My Active Issues</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="membershipMyIssues">Membership Number</label>
+                        <input type="text" id="membershipMyIssues" placeholder="Enter membership number">
+                        <button class="btn btn-primary btn-sm" onclick="fetchMyIssues()">Load</button>
+                    </div>
+
+                    <div id="myIssuesTable" class="table-container hidden">
+                        <h3>Your Active Issues</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Author</th>
+                                    <th>Issue Date</th>
+                                    <th>Return Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myIssuesBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="myIssuesMessage"></div>
+                </div>
+            </div>
+
+            <!-- Overdue Books Report Page -->
+            <div id="overdue-books" class="page">
+                <h2>My Overdue Books</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="membershipOverdue">Membership Number</label>
+                        <input type="text" id="membershipOverdue" placeholder="Enter membership number">
+                        <button class="btn btn-primary btn-sm" onclick="fetchOverdueBooks()">Load</button>
+                    </div>
+
+                    <div id="overdueTable" class="table-container hidden">
+                        <h3>Overdue Books</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Author</th>
+                                    <th>Return Date</th>
+                                    <th>Days Overdue</th>
+                                    <th>Fine Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="overdueBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="overdueMessage"></div>
+                </div>
+            </div>
+
+            <!-- Pending Fines Report Page -->
+            <div id="pending-fines-user" class="page">
+                <h2>My Pending Fines</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="membershipPendingFines">Membership Number</label>
+                        <input type="text" id="membershipPendingFines" placeholder="Enter membership number">
+                        <button class="btn btn-primary btn-sm" onclick="fetchMyPendingFines()">Load</button>
+                    </div>
+
+                    <div id="myPendingFinesTable" class="table-container hidden">
+                        <h3>Pending Fine Details</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Return Date</th>
+                                    <th>Fine Amount</th>
+                                    <th>Days Overdue</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myPendingFinesBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="myPendingFinesMessage"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/user.js"></script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Library Management System</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <h2>Library Management System - Admin Dashboard</h2>
+        <div class="navbar-links">
+            <span id="username"></span>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <h3>Modules</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="navigateTo('dashboard')" class="menu-link active">Dashboard</a></li>
+            </ul>
+            
+            <h3>Maintenance</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="navigateTo('add-book')" class="menu-link">Add Book</a></li>
+                <li><a href="#" onclick="navigateTo('update-book')" class="menu-link">Update Book</a></li>
+                <li><a href="#" onclick="navigateTo('add-membership')" class="menu-link">Add Membership</a></li>
+                <li><a href="#" onclick="navigateTo('update-membership')" class="menu-link">Update Membership</a></li>
+                <li><a href="#" onclick="navigateTo('user-management')" class="menu-link">User Management</a></li>
+            </ul>
+
+            <h3>Transactions</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="navigateTo('book-available')" class="menu-link">Book Available</a></li>
+                <li><a href="#" onclick="navigateTo('book-issue')" class="menu-link">Book Issue</a></li>
+                <li><a href="#" onclick="navigateTo('return-book')" class="menu-link">Return Book</a></li>
+                <li><a href="#" onclick="navigateTo('pay-fine')" class="menu-link">Pay Fine</a></li>
+            </ul>
+
+            <h3>Reports</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="navigateTo('active-issues')" class="menu-link">Active Issues</a></li>
+                <li><a href="#" onclick="navigateTo('overdue-issues')" class="menu-link">Overdue Returns</a></li>
+                <li><a href="#" onclick="navigateTo('pending-fines')" class="menu-link">Pending Fines</a></li>
+                <li><a href="#" onclick="navigateTo('book-availability-report')" class="menu-link">Book Availability</a></li>
+                <li><a href="#" onclick="navigateTo('members-report')" class="menu-link">Members</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page show">
+                <h2>Welcome Admin</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <h3>Quick Actions</h3>
+                        <p>Manage books, memberships, and users</p>
+                        <button class="btn btn-primary btn-sm" onclick="navigateTo('add-book')">Add Book</button>
+                    </div>
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <h3>Transactions</h3>
+                        <p>Issue books and manage returns</p>
+                        <button class="btn btn-secondary btn-sm" onclick="navigateTo('book-issue')">Issue Book</button>
+                    </div>
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <h3>Reports</h3>
+                        <p>View system reports and statistics</p>
+                        <button class="btn btn-secondary btn-sm" onclick="navigateTo('active-issues')">View Reports</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Book Page -->
+            <div id="add-book" class="page">
+                <h2>Add Book</h2>
+                <div class="form-container">
+                    <form id="addBookForm">
+                        <div class="form-group">
+                            <label>Book Type</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="type" value="book" checked> Book</label>
+                                <label><input type="radio" name="type" value="movie"> Movie</label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bookTitle">Book Title</label>
+                                <input type="text" id="bookTitle" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookAuthor">Author</label>
+                                <input type="text" id="bookAuthor" name="author" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bookISBN">ISBN</label>
+                                <input type="text" id="bookISBN" name="isbn">
+                            </div>
+                            <div class="form-group">
+                                <label for="bookSerial">Serial Number</label>
+                                <input type="text" id="bookSerial" name="serialNumber" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bookCategory">Category</label>
+                                <input type="text" id="bookCategory" name="category" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookPublication">Publication</label>
+                                <input type="text" id="bookPublication" name="publication">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bookCopies">Total Copies</label>
+                            <input type="number" id="bookCopies" name="totalCopies" min="1" required>
+                        </div>
+
+                        <div id="bookMessage"></div>
+                        <button type="submit" class="btn btn-success">Add Book</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Update Book Page -->
+            <div id="update-book" class="page">
+                <h2>Update Book</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="searchBookId">Select Book (Serial Number or Title)</label>
+                        <input type="text" id="searchBookId" placeholder="Enter serial number or title">
+                        <button class="btn btn-secondary btn-sm" onclick="searchBooks()">Search</button>
+                    </div>
+
+                    <div id="bookSearchResults" class="table-container hidden">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Serial No</th>
+                                    <th>Available</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookResultsBody"></tbody>
+                        </table>
+                    </div>
+
+                    <form id="updateBookForm" class="hidden">
+                        <div class="form-group">
+                            <label>Book Type</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="type" value="book" checked> Book</label>
+                                <label><input type="radio" name="type" value="movie"> Movie</label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="updateBookTitle">Book Title</label>
+                                <input type="text" id="updateBookTitle" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateBookAuthor">Author</label>
+                                <input type="text" id="updateBookAuthor" name="author" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="updateBookISBN">ISBN</label>
+                                <input type="text" id="updateBookISBN" name="isbn">
+                            </div>
+                            <div class="form-group">
+                                <label for="updateBookCategory">Category</label>
+                                <input type="text" id="updateBookCategory" name="category" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="updateBookPublication">Publication</label>
+                                <input type="text" id="updateBookPublication" name="publication">
+                            </div>
+                            <div class="form-group">
+                                <label for="updateBookCopies">Total Copies</label>
+                                <input type="number" id="updateBookCopies" name="totalCopies" min="1" required>
+                            </div>
+                        </div>
+
+                        <div id="updateBookMessage"></div>
+                        <button type="submit" class="btn btn-success">Update Book</button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelUpdateBook()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Add Membership Page -->
+            <div id="add-membership" class="page">
+                <h2>Add Membership</h2>
+                <div class="form-container">
+                    <form id="addMembershipForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="memberName">Member Name</label>
+                                <input type="text" id="memberName" name="memberName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="memberEmail">Email</label>
+                                <input type="email" id="memberEmail" name="email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="memberPhone">Phone</label>
+                                <input type="tel" id="memberPhone" name="phone" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="memberAddress">Address</label>
+                            <textarea id="memberAddress" name="address" rows="3" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Membership Duration</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="membershipType" value="6months" checked> 6 Months</label>
+                                <label><input type="radio" name="membershipType" value="1year"> 1 Year</label>
+                                <label><input type="radio" name="membershipType" value="2years"> 2 Years</label>
+                            </div>
+                        </div>
+
+                        <div id="membershipMessage"></div>
+                        <button type="submit" class="btn btn-success">Add Membership</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Update Membership Page -->
+            <div id="update-membership" class="page">
+                <h2>Update Membership</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="membershipNumberInput">Membership Number</label>
+                        <input type="text" id="membershipNumberInput" placeholder="Enter membership number">
+                        <button class="btn btn-secondary btn-sm" onclick="searchMembership()">Search</button>
+                    </div>
+
+                    <form id="updateMembershipForm" class="hidden">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Member Name</label>
+                                <input type="text" id="updateMemberName" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Current End Date</label>
+                                <input type="text" id="updateMemberEndDate" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Action</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="action" value="extend" checked> Extend Membership</label>
+                                <label><input type="radio" name="action" value="cancel"> Cancel Membership</label>
+                            </div>
+                        </div>
+
+                        <div id="extensionOptions">
+                            <div class="form-group">
+                                <label>Extension Duration</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="membershipType" value="6months" checked> 6 Months</label>
+                                    <label><input type="radio" name="membershipType" value="1year"> 1 Year</label>
+                                    <label><input type="radio" name="membershipType" value="2years"> 2 Years</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="updateMembershipMessage"></div>
+                        <button type="submit" class="btn btn-success">Process</button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelUpdateMembership()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Add Similar Pages for other modules will follow... -->
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

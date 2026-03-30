@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Library Management System</h1>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="admin-login">Admin Login</button>
+                <button class="tab-button" data-tab="user-login">User Login</button>
+            </div>
+
+            <!-- Admin Login Form -->
+            <div id="admin-login" class="tab-content active">
+                <form id="adminLoginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="admin-username">Username</label>
+                        <input type="text" id="admin-username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login as Admin</button>
+                </form>
+            </div>
+
+            <!-- User Login Form -->
+            <div id="user-login" class="tab-content">
+                <form id="userLoginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="user-username">Username</label>
+                        <input type="text" id="user-username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-password">Password</label>
+                        <input type="password" id="user-password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login as User</button>
+                </form>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

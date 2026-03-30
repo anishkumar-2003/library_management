@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Library Management System</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <h2>Library Management System - Admin Dashboard</h2>
+        <div class="navbar-links">
+            <span id="username"></span>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <h3>Modules</h3>
+            <ul class="sidebar-menu">
+                <li><a href="javascript:void(0);" onclick="navigateTo('dashboard'); return false;" class="menu-link active">Dashboard</a></li>
+            </ul>
+            
+            <h3>Maintenance</h3>
+            <ul class="sidebar-menu">
+                <li><a href="javascript:void(0);" onclick="navigateTo('add-book'); return false;" class="menu-link">Add Book</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('update-book'); return false;" class="menu-link">Update Book</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('add-membership'); return false;" class="menu-link">Add Membership</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('update-membership'); return false;" class="menu-link">Update Membership</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('user-management'); return false;" class="menu-link">User Management</a></li>
+            </ul>
+
+            <h3>Transactions</h3>
+            <ul class="sidebar-menu">
+                <li><a href="javascript:void(0);" onclick="navigateTo('book-issue'); return false;" class="menu-link">Book Issue</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('return-book'); return false;" class="menu-link">Return Book</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('pay-fine'); return false;" class="menu-link">Pay Fine</a></li>
+            </ul>
+
+            <h3>Reports</h3>
+            <ul class="sidebar-menu">
+                <li><a href="javascript:void(0);" onclick="navigateTo('active-issues'); return false;" class="menu-link">Active Issues</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('overdue-issues'); return false;" class="menu-link">Overdue Returns</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('pending-fines'); return false;" class="menu-link">Pending Fines</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('book-availability'); return false;" class="menu-link">Book Availability</a></li>
+                <li><a href="javascript:void(0);" onclick="navigateTo('members'); return false;" class="menu-link">Members</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page show">
+                <h2>Welcome Admin Dashboard</h2>
+                <p>Select an option from the left menu to get started.</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px;">
+                        <h3>📚 Maintenance</h3>
+                        <p>Manage books, memberships, and users</p>
+                        <button class="btn btn-primary btn-sm" onclick="navigateTo('add-book'); return false;">Add Book</button>
+                    </div>
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px;">
+                        <h3>📤 Transactions</h3>
+                        <p>Issue books and manage returns</p>
+                        <button class="btn btn-secondary btn-sm" onclick="navigateTo('book-issue'); return false;">Issue Book</button>
+                    </div>
+                    <div style="background: #ecf0f1; padding: 20px; border-radius: 8px;">
+                        <h3>📊 Reports</h3>
+                        <p>View system reports</p>
+                        <button class="btn btn-secondary btn-sm" onclick="navigateTo('active-issues'); return false;">View Reports</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Book Page -->
+            <div id="add-book" class="page">
+                <h2>Add Book</h2>
+                <div class="form-container">
+                    <form id="addBookForm">
+                        <div class="form-group">
+                            <label>Book Type</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="type" value="book" checked> Book</label>
+                                <label><input type="radio" name="type" value="movie"> Movie</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bookTitle">Book Title</label>
+                                <input type="text" id="bookTitle" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookAuthor">Author</label>
+                                <input type="text" id="bookAuthor" name="author" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bookISBN">ISBN</label>
+                                <input type="text" id="bookISBN" name="isbn">
+                            </div>
+                            <div class="form-group">
+                                <label for="bookSerial">Serial Number</label>
+                                <input type="text" id="bookSerial" name="serialNumber" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bookCategory">Category</label>
+                                <input type="text" id="bookCategory" name="category" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookCopies">Total Copies</label>
+                                <input type="number" id="bookCopies" name="totalCopies" min="1" required>
+                            </div>
+                        </div>
+                        <div id="bookMessage"></div>
+                        <button type="submit" class="btn btn-success">Add Book</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Update Book Page -->
+            <div id="update-book" class="page">
+                <h2>Update Book</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label>Search by Serial Number or Title</label>
+                        <input type="text" id="searchBookId" placeholder="Enter serial number or title">
+                        <button class="btn btn-secondary btn-sm" onclick="searchBooks()">Search</button>
+                    </div>
+                    <div id="updateBookMessage"></div>
+                    <button type="button" class="btn btn-secondary" onclick="cancelUpdateBook()" style="display:none;">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Add Membership Page -->
+            <div id="add-membership" class="page">
+                <h2>Add Membership</h2>
+                <div class="form-container">
+                    <form id="addMembershipForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="memberName">Member Name</label>
+                                <input type="text" id="memberName" name="memberName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="memberEmail">Email</label>
+                                <input type="email" id="memberEmail" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="memberPhone">Phone</label>
+                                <input type="tel" id="memberPhone" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="memberAddress">Address</label>
+                            <textarea id="memberAddress" name="address" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Membership Duration</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="membershipType" value="6months" checked> 6 Months</label>
+                                <label><input type="radio" name="membershipType" value="1year"> 1 Year</label>
+                                <label><input type="radio" name="membershipType" value="2years"> 2 Years</label>
+                            </div>
+                        </div>
+                        <div id="membershipMessage"></div>
+                        <button type="submit" class="btn btn-success">Add Membership</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Update Membership Page -->
+            <div id="update-membership" class="page">
+                <h2>Update Membership</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label>Membership Number</label>
+                        <input type="text" id="membershipNumberInput" placeholder="Enter membership number">
+                        <button class="btn btn-secondary btn-sm" onclick="searchMembership()">Search</button>
+                    </div>
+                    <div id="updateMembershipMessage"></div>
+                    <button type="button" class="btn btn-secondary" onclick="cancelUpdateMembership()" style="display:none;">Cancel</button>
+                </div>
+            </div>
+
+            <!-- User Management Page -->
+            <div id="user-management" class="page">
+                <h2>User Management</h2>
+                <div class="form-container">
+                    <div style="margin-bottom: 30px;">
+                        <button class="btn btn-primary" onclick="showAddUserForm()">Add New User</button>
+                    </div>
+                    <div id="usersTable"></div>
+                    <div id="addUserForm" style="display: none;">
+                        <form>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" id="newUsername" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="newEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" id="newPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label>User Type</label>
+                                <select id="newUserType">
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-success" onclick="addNewUser()">Add User</button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelAddUser()">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book Issue Page -->
+            <div id="book-issue" class="page">
+                <h2>Issue Book</h2>
+                <div class="form-container">
+                    <form id="bookIssueForm">
+                        <div class="form-group">
+                            <label>Membership Number</label>
+                            <input type="text" id="issueMembershipNum" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Book Title</label>
+                            <input type="text" id="issueBookTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Issue Date</label>
+                            <input type="date" id="issueDateField" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Return Date (Max 15 days)</label>
+                            <input type="date" id="issueReturnDateField" required>
+                        </div>
+                        <div id="issueMessage"></div>
+                        <button type="submit" class="btn btn-success">Issue Book</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Return Book Page -->
+            <div id="return-book" class="page">
+                <h2>Return Book</h2>
+                <div class="form-container">
+                    <form id="returnBookForm">
+                        <div class="form-group">
+                            <label>Membership Number</label>
+                            <input type="text" id="returnMembershipNum" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Book Title</label>
+                            <input type="text" id="returnBookTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Actual Return Date</label>
+                            <input type="date" id="returnDateField" required>
+                        </div>
+                        <div id="returnMessage"></div>
+                        <button type="submit" class="btn btn-success">Process Return</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Pay Fine Page -->
+            <div id="pay-fine" class="page">
+                <h2>Pay Fine</h2>
+                <div class="form-container">
+                    <form id="payFineForm">
+                        <div class="form-group">
+                            <label>Membership Number</label>
+                            <input type="text" id="fineMembershipNum" required>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="getPendingFines()">Get Fines</button>
+                        </div>
+                        <div id="pendingFinesDisplay"></div>
+                        <div class="form-group">
+                            <label>Fine Amount (Rs.)</label>
+                            <input type="number" id="fineAmount" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="fineConfirm" required> Confirm fine payment</label>
+                        </div>
+                        <div id="fineMessage"></div>
+                        <button type="submit" class="btn btn-success">Pay Fine</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Active Issues Report -->
+            <div id="active-issues" class="page">
+                <h2>Active Issues Report</h2>
+                <div class="form-container">
+                    <button class="btn btn-primary" onclick="loadActiveIssues()">Load Report</button>
+                    <div id="activeIssuesTable" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- Overdue Issues Report -->
+            <div id="overdue-issues" class="page">
+                <h2>Overdue Returns Report</h2>
+                <div class="form-container">
+                    <button class="btn btn-primary" onclick="loadOverdueIssues()">Load Report</button>
+                    <div id="overdueIssuesTable" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- Pending Fines Report -->
+            <div id="pending-fines" class="page">
+                <h2>Pending Fines Report</h2>
+                <div class="form-container">
+                    <button class="btn btn-primary" onclick="loadPendingFines()">Load Report</button>
+                    <div id="pendingFinesTable" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- Book Availability Report -->
+            <div id="book-availability" class="page">
+                <h2>Book Availability Report</h2>
+                <div class="form-container">
+                    <button class="btn btn-primary" onclick="loadBookAvailability()">Load Report</button>
+                    <div id="bookAvailabilityTable" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- Members Report -->
+            <div id="members" class="page">
+                <h2>Members Report</h2>
+                <div class="form-container">
+                    <button class="btn btn-primary" onclick="loadMembersReport()">Load Report</button>
+                    <div id="membersTable" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>
