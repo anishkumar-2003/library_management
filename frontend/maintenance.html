@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Maintenance</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-container">
+            <h2 class="navbar-title">Library Management System</h2>
+            <div class="navbar-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="maintenance.html" class="nav-link active">Maintenance</a>
+                <a href="transactions.html" class="nav-link">Transactions</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+                <a href="javascript:logout()" class="nav-link logout-link">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Maintenance Module</h1>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="addMembership">Add Membership</button>
+                <button class="tab-button" data-tab="updateMembership">Update Membership</button>
+                <button class="tab-button" data-tab="addBook">Add Book</button>
+                <button class="tab-button" data-tab="updateBook">Update Book</button>
+                <button class="tab-button" data-tab="userManagement">User Management</button>
+            </div>
+
+            <!-- Add Membership Tab -->
+            <div id="addMembership" class="tab-content active">
+                <h2>Add Membership</h2>
+                <form id="addMembershipForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="memberName">Member Name *</label>
+                            <input type="text" id="memberName" name="memberName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="memberEmail">Email *</label>
+                            <input type="email" id="memberEmail" name="memberEmail" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="memberPhone">Phone Number *</label>
+                            <input type="tel" id="memberPhone" name="memberPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="memberAddress">Address *</label>
+                            <input type="text" id="memberAddress" name="memberAddress" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Membership Duration *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="membershipDuration" value="6" checked>
+                                    6 Months
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="membershipDuration" value="12">
+                                    1 Year
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="membershipDuration" value="24">
+                                    2 Years
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-message" id="addMembershipError"></div>
+                    <button type="submit" class="btn btn-primary">Add Membership</button>
+                </form>
+            </div>
+
+            <!-- Update Membership Tab -->
+            <div id="updateMembership" class="tab-content">
+                <h2>Update Membership</h2>
+                <form id="updateMembershipForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="membershipNumberSearch">Membership Number *</label>
+                            <input type="text" id="membershipNumberSearch" name="membershipNumber" placeholder="Enter membership number" required>
+                        </div>
+                        <button type="button" class="btn btn-secondary" id="searchMembershipBtn">Search</button>
+                    </div>
+
+                    <div id="membershipDetails" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="updateMemberName">Member Name</label>
+                                <input type="text" id="updateMemberName" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateMemberEmail">Email</label>
+                                <input type="email" id="updateMemberEmail" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="updateExpiryDate">Current Expiry Date</label>
+                                <input type="date" id="updateExpiryDate" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Action *</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="membershipAction" value="extend" checked>
+                                        Extend (6 months)
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="membershipAction" value="cancel">
+                                        Cancel
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="error-message" id="updateMembershipError"></div>
+                        <button type="submit" class="btn btn-primary">Update Membership</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Add Book Tab -->
+            <div id="addBook" class="tab-content">
+                <h2>Add Book</h2>
+                <form id="addBookForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Type *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="bookType" value="Book" checked>
+                                    Book
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="bookType" value="Movie">
+                                    Movie
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookTitle">Title/Name *</label>
+                            <input type="text" id="bookTitle" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookAuthor">Author/Director *</label>
+                            <input type="text" id="bookAuthor" name="author" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookIsbn">ISBN/Code *</label>
+                            <input type="text" id="bookIsbn" name="isbn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookPublisher">Publisher *</label>
+                            <input type="text" id="bookPublisher" name="publisher" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookYear">Year *</label>
+                            <input type="number" id="bookYear" name="year" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookQuantity">Quantity *</label>
+                            <input type="number" id="bookQuantity" name="quantity" min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="error-message" id="addBookError"></div>
+                    <button type="submit" class="btn btn-primary">Add Book</button>
+                </form>
+            </div>
+
+            <!-- Update Book Tab -->
+            <div id="updateBook" class="tab-content">
+                <h2>Update Book</h2>
+                <form id="updateBookForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="updateBookIsbn">ISBN/Code *</label>
+                            <input type="text" id="updateBookIsbn" name="isbn" placeholder="Enter ISBN to search" required>
+                        </div>
+                        <button type="button" class="btn btn-secondary" id="searchBookBtn">Search</button>
+                    </div>
+
+                    <div id="bookDetails" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Type *</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="updateBookType" value="Book">
+                                        Book
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="updateBookType" value="Movie">
+                                        Movie
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="updateBookTitle">Title/Name *</label>
+                                <input type="text" id="updateBookTitle" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateBookAuthor">Author/Director *</label>
+                                <input type="text" id="updateBookAuthor" name="author" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="updateBookPublisher">Publisher *</label>
+                                <input type="text" id="updateBookPublisher" name="publisher" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="updateBookYear">Year *</label>
+                                <input type="number" id="updateBookYear" name="year" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="updateBookQuantity">Quantity *</label>
+                                <input type="number" id="updateBookQuantity" name="quantity" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="error-message" id="updateBookError"></div>
+                        <button type="submit" class="btn btn-primary">Update Book</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- User Management Tab -->
+            <div id="userManagement" class="tab-content">
+                <h2>User Management</h2>
+                <form id="userManagementForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>User Type *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="userType" value="newUser" checked>
+                                    New User
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="userType" value="existingUser">
+                                    Existing User
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="newUserFields">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newUserName">Name *</label>
+                                <input type="text" id="newUserName" name="userName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newUserEmail">Email *</label>
+                                <input type="email" id="newUserEmail" name="userEmail" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newUsername">Username *</label>
+                                <input type="text" id="newUsername" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newUserPassword">Password *</label>
+                                <input type="password" id="newUserPassword" name="password" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Role *</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="userRole" value="User" checked>
+                                        User
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="userRole" value="Admin">
+                                        Admin
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="existingUserFields" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="existingUsername">Username *</label>
+                                <input type="text" id="existingUsername" name="existingUsername" placeholder="Enter username" required>
+                            </div>
+                            <button type="button" class="btn btn-secondary" id="searchUserBtn">Search</button>
+                        </div>
+
+                        <div id="userFieldsContainer" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="existingUserDisplay">Name</label>
+                                    <input type="text" id="existingUserDisplay" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="existingUserEmailDisplay">Email</label>
+                                    <input type="email" id="existingUserEmailDisplay" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Role *</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="existingUserRole" value="User">
+                                            User
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="existingUserRole" value="Admin">
+                                            Admin
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="error-message" id="userManagementError"></div>
+                    <button type="submit" class="btn btn-primary">Save User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" class="chart-link">Chart Link</a>
+
+    <script src="js/storage.js"></script>
+    <script>
+        var storage = new Storage();
+    </script>
+    <script src="js/common.js"></script>
+    <script src="js/maintenance.js"></script>
+</body>
+</html>

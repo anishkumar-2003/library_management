@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Transactions</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-container">
+            <h2 class="navbar-title">Library Management System</h2>
+            <div class="navbar-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="maintenance.html" class="nav-link" id="maintenanceLink">Maintenance</a>
+                <a href="transactions.html" class="nav-link active">Transactions</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+                <a href="javascript:logout()" class="nav-link logout-link">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Transactions Module</h1>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="bookAvailability">Book Availability</button>
+                <button class="tab-button" data-tab="issueBook">Issue Book</button>
+                <button class="tab-button" data-tab="returnBook">Return Book</button>
+            </div>
+
+            <!-- Book Availability Tab -->
+            <div id="bookAvailability" class="tab-content active">
+                <h2>Book Availability Search</h2>
+                <form id="bookAvailabilityForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="searchBookTitle">Book Title</label>
+                            <input type="text" id="searchBookTitle" name="title" placeholder="Search by title">
+                        </div>
+                        <div class="form-group">
+                            <label for="searchBookAuthor">Author</label>
+                            <input type="text" id="searchBookAuthor" name="author" placeholder="Search by author">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="searchBookType">Type</label>
+                            <select id="searchBookType" name="type">
+                                <option value="">-- Select Type --</option>
+                                <option value="Book">Book</option>
+                                <option value="Movie">Movie</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="searchBookIsbn">ISBN/Code</label>
+                            <input type="text" id="searchBookIsbn" name="isbn" placeholder="Search by ISBN">
+                        </div>
+                    </div>
+
+                    <div class="error-message" id="bookAvailabilityError"></div>
+                    <button type="submit" class="btn btn-primary">Search Books</button>
+                </form>
+
+                <div id="bookAvailabilityResults" style="display: none;">
+                    <h3>Search Results</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Type</th>
+                                <th>ISBN</th>
+                                <th>Publisher</th>
+                                <th>Available</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookAvailabilityTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Issue Book Tab -->
+            <div id="issueBook" class="tab-content">
+                <h2>Issue Book</h2>
+                <form id="issueBookForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="issueBookTitle">Book Title *</label>
+                            <input type="text" id="issueBookTitle" name="bookTitle" placeholder="Start typing..." list="bookTitles" required>
+                            <datalist id="bookTitles"></datalist>
+                        </div>
+                        <div class="form-group">
+                            <label for="issueAuthor">Author</label>
+                            <input type="text" id="issueAuthor" name="author" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="issueMemberNumber">Member Number *</label>
+                            <input type="text" id="issueMemberNumber" name="memberNumber" placeholder="Enter member number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="issueMemberName">Member Name</label>
+                            <input type="text" id="issueMemberName" name="memberName" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="issueDate">Issue Date *</label>
+                            <input type="date" id="issueDate" name="issueDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="returnDate">Return Date *</label>
+                            <input type="date" id="returnDate" name="returnDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="issueRemarks">Remarks</label>
+                            <textarea id="issueRemarks" name="remarks" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="error-message" id="issueBookError"></div>
+                    <button type="submit" class="btn btn-primary">Issue Book</button>
+                </form>
+            </div>
+
+            <!-- Return Book Tab -->
+            <div id="returnBook" class="tab-content">
+                <h2>Return Book</h2>
+                <form id="returnBookForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="returnBookTitle">Book Title *</label>
+                            <input type="text" id="returnBookTitle" name="bookTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="returnAuthor">Author</label>
+                            <input type="text" id="returnAuthor" name="author" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="returnSerialNumber">Serial Number *</label>
+                            <input type="text" id="returnSerialNumber" name="serialNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="returnIssuedDate">Issue Date</label>
+                            <input type="date" id="returnIssuedDate" name="issueDate" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="returnReturnDate">Return Date *</label>
+                            <input type="date" id="returnReturnDate" name="returnDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fine">Fine Amount</label>
+                            <input type="number" id="fine" name="fine" readonly step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="returnRemarks">Remarks</label>
+                            <textarea id="returnRemarks" name="remarks" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="error-message" id="returnBookError"></div>
+                    <button type="submit" class="btn btn-primary">Proceed to Fine Payment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fine Pay Modal -->
+    <div id="finePayModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Fine Payment</h2>
+            <form id="finePayForm" class="form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fineMemberName">Member Name</label>
+                        <input type="text" id="fineMemberName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="fineBookTitle">Book Title</label>
+                        <input type="text" id="fineBookTitle" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fineAmount">Fine Amount (₹)</label>
+                        <input type="number" id="fineAmount" readonly step="0.01">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="finePaidCheckbox" name="finePaid">
+                            Fine Paid
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="finePayRemarks">Remarks</label>
+                        <textarea id="finePayRemarks" name="remarks" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="error-message" id="finePayError"></div>
+                <button type="submit" class="btn btn-primary">Confirm Return</button>
+                <button type="button" class="btn btn-secondary" id="closeFinePayBtn">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <a href="#" class="chart-link">Chart Link</a>
+
+    <script src="js/storage.js"></script>
+    <script>
+        const storage = new Storage();
+    </script>
+    <script src="js/common.js"></script>
+    <script src="js/transactions.js"></script>
+</body>
+</html>

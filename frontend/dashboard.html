@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-container">
+            <h2 class="navbar-title">Library Management System</h2>
+            <div class="navbar-links">
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="maintenance.html" class="nav-link" id="maintenanceLink">Maintenance</a>
+                <a href="transactions.html" class="nav-link">Transactions</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+                <a href="javascript:logout()" class="nav-link logout-link">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome, <span id="userNameDisplay">User</span>!</h1>
+            <p>Role: <strong id="userRoleDisplay">User</strong></p>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="dashboard-cards">
+                <div class="card" id="maintenanceCard">
+                    <h3>Maintenance</h3>
+                    <p>Manage books, memberships, and users</p>
+                    <a href="maintenance.html" class="btn btn-primary">Go to Maintenance</a>
+                </div>
+
+                <div class="card">
+                    <h3>Transactions</h3>
+                    <p>Issue, return books and manage fines</p>
+                    <a href="transactions.html" class="btn btn-primary">Go to Transactions</a>
+                </div>
+
+                <div class="card">
+                    <h3>Reports</h3>
+                    <p>View issued, returned books and memberships</p>
+                    <a href="reports.html" class="btn btn-primary">Go to Reports</a>
+                </div>
+            </div>
+
+            <div class="quick-stats">
+                <h3>Quick Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">Total Books</span>
+                        <span class="stat-value" id="totalBooksCount">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Total Memberships</span>
+                        <span class="stat-value" id="totalMembershipsCount">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Books Issued</span>
+                        <span class="stat-value" id="booksIssuedCount">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Pending Returns</span>
+                        <span class="stat-value" id="pendingReturnsCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" class="chart-link">Chart Link</a>
+
+    <script src="js/storage.js"></script>
+    <script>
+        var storage = new Storage();
+    </script>
+    <script src="js/common.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

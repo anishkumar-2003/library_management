@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Reports</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-container">
+            <h2 class="navbar-title">Library Management System</h2>
+            <div class="navbar-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="maintenance.html" class="nav-link" id="maintenanceLink">Maintenance</a>
+                <a href="transactions.html" class="nav-link">Transactions</a>
+                <a href="reports.html" class="nav-link active">Reports</a>
+                <a href="javascript:logout()" class="nav-link logout-link">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Reports Module</h1>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="issuedBooks">Issued Books</button>
+                <button class="tab-button" data-tab="returnedBooks">Returned Books</button>
+                <button class="tab-button" data-tab="membershipReport">Membership Details</button>
+            </div>
+
+            <!-- Issued Books Report -->
+            <div id="issuedBooks" class="tab-content active">
+                <h2>Issued Books Report</h2>
+                <div class="report-filters">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="issuedMemberName">Member Name</label>
+                            <input type="text" id="issuedMemberName" placeholder="Filter by member">
+                        </div>
+                        <div class="form-group">
+                            <label for="issuedBookTitle">Book Title</label>
+                            <input type="text" id="issuedBookTitle" placeholder="Filter by book title">
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" id="filterIssuedBtn">Filter</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Issue ID</th>
+                            <th>Member Name</th>
+                            <th>Book Title</th>
+                            <th>Author</th>
+                            <th>Issue Date</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="issuedBooksTable">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Returned Books Report -->
+            <div id="returnedBooks" class="tab-content">
+                <h2>Returned Books Report</h2>
+                <div class="report-filters">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="returnedMemberName">Member Name</label>
+                            <input type="text" id="returnedMemberName" placeholder="Filter by member">
+                        </div>
+                        <div class="form-group">
+                            <label for="returnedBookTitle">Book Title</label>
+                            <input type="text" id="returnedBookTitle" placeholder="Filter by book title">
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" id="filterReturnedBtn">Filter</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Return ID</th>
+                            <th>Member Name</th>
+                            <th>Book Title</th>
+                            <th>Author</th>
+                            <th>Issue Date</th>
+                            <th>Return Date</th>
+                            <th>Fine (₹)</th>
+                            <th>Fine Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="returnedBooksTable">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Membership Report -->
+            <div id="membershipReport" class="tab-content">
+                <h2>Membership Details Report</h2>
+                <div class="report-filters">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reportMemberName">Member Name</label>
+                            <input type="text" id="reportMemberName" placeholder="Filter by member name">
+                        </div>
+                        <div class="form-group">
+                            <label for="membershipStatus">Status</label>
+                            <select id="membershipStatus">
+                                <option value="">-- All --</option>
+                                <option value="Active">Active</option>
+                                <option value="Expired">Expired</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" id="filterMembershipBtn">Filter</button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Membership #</th>
+                            <th>Member Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Join Date</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="membershipTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <a href="#" class="chart-link">Chart Link</a>
+
+    <script src="js/storage.js"></script>
+    <script>
+        const storage = new Storage();
+    </script>
+    <script src="js/common.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+</html>
